@@ -1,0 +1,40 @@
+.bg-danger {
+    background-color: #dc3545 !important;
+    color: #ffffff;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.nav a {
+    font-size: 1.6em !important;
+}
+
+.form-group {
+    font-size: 1.6em !important;
+}
+
+.form-group input {
+    font-size: 24px !important;
+}
+
+.table-h3 td {
+    font-size: 1.6em !important;
+}
+
+select{
+    font-size: 24px !important;
+}
+
+.pagination{
+    font-size: 24px !important;
+}
+
+.pagination>.disabled>a{
+    color:red;
+}
+
+.bottom-s{
+    margin-bottom: 20px;
+}
