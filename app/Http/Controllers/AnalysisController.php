@@ -22,18 +22,19 @@ class AnalysisController extends Controller
     public function shortShow()
     {
         $beforeShortValuation = $this->cacheRepository->getBeforeShortAnalysis(auth()->user()->id);
-
         $wavePoint = $beforeShortValuation['wavePoint'] ?? 22;
         $msPercent = $beforeShortValuation['msPercent'] ?? 20;
         $money = $beforeShortValuation['money'] ?? 10;
         $waveMoney = $beforeShortValuation['waveMoney'] ?? 6;
+        $warehouseMoneyDistance = $beforeShortValuation['warehouseMoneyDistance'] ?? 0.1;
 
         return view('analysis-short',
             compact(
                 'wavePoint',
                 'msPercent',
                 'money',
-                'waveMoney'
+                'waveMoney',
+                'warehouseMoneyDistance'
             )
         );
     }
@@ -51,15 +52,17 @@ class AnalysisController extends Controller
         $msPercent = request('msPercent') / 100;
         $money = request('money') * 10000;
         $waveMoney = request('waveMoney');
+        $warehouseMoneyDistance = request('warehouseMoneyDistance');
 
         $result = $this->service->shortAnalysisData(
             $wavePoint,
             $msPercent,
             $money,
-            $waveMoney
+            $waveMoney,
+            $warehouseMoneyDistance
         );
 
-        $this->storeShortValuation(auth()->user()->id, $result);
+        $this->saveShortValuationRequest(auth()->user()->id);
 
         return response()->json(
             $success->format(
@@ -69,15 +72,16 @@ class AnalysisController extends Controller
         );
     }
 
-    protected function storeShortValuation(int $userId, $result)
+    protected function saveShortValuationRequest(int $userId)
     {
         $this->cacheRepository->saveShortAnalysis(
             $userId,
             [
-                'wavePoint' => request('wavePoint'),
-                'msPercent' => request('msPercent'),
-                'money'     => request('money'),
-                'waveMoney' => request('waveMoney')
+                'wavePoint'              => request('wavePoint'),
+                'msPercent'              => request('msPercent'),
+                'money'                  => request('money'),
+                'waveMoney'              => request('waveMoney'),
+                'warehouseMoneyDistance' => request('warehouseMoneyDistance')
             ]
         );
     }

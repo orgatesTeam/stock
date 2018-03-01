@@ -9,7 +9,7 @@ class AnalysisService extends Service
 {
     protected $repository;
 
-    public function shortAnalysisData($wavePoint, $msPercent, $money, $waveMoney)
+    public function shortAnalysisData($wavePoint, $msPercent, $money, $waveMoney, $warehouseMoneyDistance)
     {
         $analysisShortRepository = app(AnalysisShortRepository::class);
 
@@ -19,15 +19,18 @@ class AnalysisService extends Service
         $buyPointInfo = $analysisShortRepository->buyPoint($msPercent, $whilePoint, $money);
         $upPipeStrategies = $this->warehouseStrategies(
             $buyPointInfo['buySheets'],
-            $upPipe
+            $upPipe,
+            $warehouseMoneyDistance
         );
         $downPipeStrategies = $this->warehouseStrategies(
             $buyPointInfo['buySheets'],
-            $downPipe
+            $downPipe,
+            $warehouseMoneyDistance
         );
         $whilePipeStrategies = $this->warehouseStrategies(
             $buyPointInfo['buySheets'],
-            $whilePoint
+            $whilePoint,
+            $warehouseMoneyDistance
         );
 
         return $this->formatterShortAnalysis(
@@ -43,23 +46,47 @@ class AnalysisService extends Service
 
     /**
      * 建倉策略
+     *
+     * @param $sheetTotal  總建倉張數
+     * @param $pipe 煙斗屬性
+     * @param $warehouseMoneyDistance 建倉區間價格
+     *
+     * @return array
      */
-    protected function warehouseStrategies($sheetTotal, $pipe)
+    protected function warehouseStrategies($sheetTotal, $pipe, $warehouseMoneyDistance)
     {
-        $allocateSheets = $this->allocateSheets($sheetTotal);
-        $time = count($allocateSheets);
-        $distanceMoney = $pipe['middle'] - $pipe['bottom'];
-        $unitMoney = $this->ceil_dec($distanceMoney / $time, 1);
-        $result = [];
-        $money = $pipe['middle'];
+        //除法是獲得區塊，但為了獲得數字點需要減 1
+        $sheetTotal = $sheetTotal - 1;
+        $middleMoney = $pipe['middle'];
+        $bottomMoney = $pipe['bottom'];
+        $distanceMoney = $middleMoney - $bottomMoney;
 
-        // 中點以下
-        foreach ($allocateSheets as $sheet) {
+        if ($sheetTotal <= 0) {
+            return [0 => [
+                'money' => $middleMoney,
+                'sheet' => 0
+            ]];
+        };
+
+
+        $everySheet = 1;
+        while ($distanceMoney / ($sheetTotal / $everySheet) <= $warehouseMoneyDistance) {
+            $everySheet++;
+            if ($everySheet > 100) {
+                break;
+            }
+        }
+
+        $maxForeachTime = intval($sheetTotal / $everySheet);
+        $everySheet = intval($sheetTotal / $maxForeachTime);
+        $everyMoney = $distanceMoney / (($sheetTotal / $everySheet)+1);
+        $money = $middleMoney;
+        foreach (range(1, $maxForeachTime) as $index) {
             $result[] = [
                 'money' => round($money, 2),
-                'sheet' => $sheet
+                'sheet' => $everySheet
             ];
-            $money = $money - $unitMoney;
+            $money = $money - $everyMoney;
         }
 
         return $result;

@@ -8,7 +8,7 @@
     </div>
     <div class="row" v-bind:class="{'invisible' : loadingGif }">
         <div class="col-12">
-            <form class="form-horizontal" method="get">
+            <form class="form-horizontal">
                 <div class="form-group">
                     <label for="wave-point" class="col-sm-2 control-label">下降點價位： </label>
                     <div class="col-sm-9">
@@ -34,6 +34,13 @@
                     <div class="col-sm-9">
                         <input type="number" class="form-control" name="wave-money" id="wave-money"
                                value="{{$waveMoney}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="warehouseMoneyDistance" class="col-sm-2 control-label">建倉價格區間：</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="warehouseMoneyDistance"
+                               value="{{$warehouseMoneyDistance}}">
                     </div>
                 </div>
                 <div class="form-group">
