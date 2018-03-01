@@ -22,9 +22,19 @@ class AnalysisShortRepository extends Repository
         return [
             'percent'   => ($percent * 100) . ' % ',
             'avgSheets' => $avgMoney,
-            'useMoney'  => ($totalMoney / 1000) . ' . ' . '000',
+            'useMoney'  => $this->convertThousand($totalMoney),
             'buySheets' => $sheets
         ];
+    }
+
+    protected function convertThousand($number)
+    {
+        $newNumber = [];
+        while (strlen($number) > 3) {
+            $newNumber[] = substr($number, strlen($number) - 3, strlen($number) - 1);
+            $number = substr($number, 0, strlen($number) - 3);
+        }
+        return $number . '.' . implode('.', array_reverse($newNumber));
     }
 
     //上煙斗
