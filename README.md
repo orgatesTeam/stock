@@ -16,6 +16,7 @@
 * npm run dev
 * cp .env.example .env
 * php artisan key:generate
+* php artisan migrate
 * redis-server
 
 ## file .env 設定
