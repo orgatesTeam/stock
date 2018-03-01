@@ -52,14 +52,12 @@ class AnalysisController extends Controller
         $msPercent = request('msPercent') / 100;
         $money = request('money') * 10000;
         $waveMoney = request('waveMoney');
-        $warehouseMoneyDistance = request('warehouseMoneyDistance');
 
         $result = $this->service->shortAnalysisData(
             $wavePoint,
             $msPercent,
             $money,
-            $waveMoney,
-            $warehouseMoneyDistance
+            $waveMoney
         );
 
         $this->saveShortValuationRequest(auth()->user()->id);

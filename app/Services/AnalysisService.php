@@ -9,7 +9,7 @@ class AnalysisService extends Service
 {
     protected $repository;
 
-    public function shortAnalysisData($wavePoint, $msPercent, $money, $waveMoney, $warehouseMoneyDistance)
+    public function shortAnalysisData($wavePoint, $msPercent, $money, $waveMoney)
     {
         $analysisShortRepository = app(AnalysisShortRepository::class);
 
@@ -19,18 +19,15 @@ class AnalysisService extends Service
         $buyPointInfo = $analysisShortRepository->buyPoint($msPercent, $whilePoint, $money);
         $upPipeStrategies = $this->warehouseStrategies(
             $buyPointInfo['buySheets'],
-            $upPipe,
-            $warehouseMoneyDistance
+            $upPipe
         );
         $downPipeStrategies = $this->warehouseStrategies(
             $buyPointInfo['buySheets'],
-            $downPipe,
-            $warehouseMoneyDistance
+            $downPipe
         );
         $whilePipeStrategies = $this->warehouseStrategies(
             $buyPointInfo['buySheets'],
-            $whilePoint,
-            $warehouseMoneyDistance
+            $whilePoint
         );
 
         return $this->formatterShortAnalysis(
@@ -53,7 +50,7 @@ class AnalysisService extends Service
      *
      * @return array
      */
-    protected function warehouseStrategies($sheetTotal, $pipe, $warehouseMoneyDistance)
+    protected function warehouseStrategies($sheetTotal, $pipe)
     {
         //除法是獲得區塊，但為了獲得數字點需要減 1
         $sheetTotal = $sheetTotal - 1;
@@ -61,16 +58,17 @@ class AnalysisService extends Service
         $bottomMoney = $pipe['bottom'];
         $distanceMoney = $middleMoney - $bottomMoney;
 
-        if ($sheetTotal <= 0) {
+        //例外處理
+        if ($sheetTotal < 1) {
             return [0 => [
                 'money' => $middleMoney,
                 'sheet' => 0
             ]];
         };
 
-
+        //0.1以上張數間距價格 一個間距多少張數
         $everySheet = 1;
-        while ($distanceMoney / ($sheetTotal / $everySheet) <= $warehouseMoneyDistance) {
+        while ($distanceMoney / ($sheetTotal / $everySheet) <= 0.1 ) {
             $everySheet++;
             if ($everySheet > 100) {
                 break;
@@ -78,10 +76,9 @@ class AnalysisService extends Service
         }
 
         $maxForeachTime = intval($sheetTotal / $everySheet);
-        $everySheet = intval($sheetTotal / $maxForeachTime);
-        $everyMoney = $distanceMoney / (($sheetTotal / $everySheet)+1);
+        $everyMoney = $distanceMoney / $maxForeachTime;
         $money = $middleMoney;
-        foreach (range(1, $maxForeachTime) as $index) {
+        foreach (range(0, $maxForeachTime) as $index) {
             $result[] = [
                 'money' => round($money, 2),
                 'sheet' => $everySheet

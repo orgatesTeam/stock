@@ -26,7 +26,6 @@ window.vm = new Vue({
         msPercent: null,
         money: null,
         waveMoney: null,
-        warehouseMoneyDistance:null,
         loadingGif: false
     },
     methods: {
@@ -36,10 +35,9 @@ window.vm = new Vue({
             this.msPercent = $('#ms-percent').val();
             this.money = $('#money').val();
             this.waveMoney = $('#wave-money').val();
-            this.warehouseMoneyDistance = $('#warehouseMoneyDistance').val();
             let url = $('#ajax-short-valuation').val();
             url  += '?wavePoint=' + this.wavePoint + '&msPercent=' + this.msPercent +
-                '&money=' + this.money + "&waveMoney=" + this.waveMoney + '&warehouseMoneyDistance='+this.warehouseMoneyDistance;
+                '&money=' + this.money + "&waveMoney=" + this.waveMoney;
             window.axios.get(url)
                 .then((response) => {
                 if(response.status === 200

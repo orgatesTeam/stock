@@ -37,13 +37,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="warehouseMoneyDistance" class="col-sm-2 control-label">建倉價格區間：</label>
-                    <div class="col-sm-9">
-                        <input type="number" class="form-control" id="warehouseMoneyDistance"
-                               value="{{$warehouseMoneyDistance}}">
-                    </div>
-                </div>
-                <div class="form-group">
                     <label for="money" class="col-sm-2 control-label"></label>
                     <div class="col-sm-9">
                         <button type="button" class="btn btn-success" v-on:click="getPipe"> 送出</button>
