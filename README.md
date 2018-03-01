@@ -14,8 +14,10 @@
 * composer install
 * npm install
 * npm run dev
+* cp .env.example .env
+* vi .env
 
-## env 設定
+## file .env 設定
 * FB_ID
 * FB_SECRET
 * FB_CALLBACK
