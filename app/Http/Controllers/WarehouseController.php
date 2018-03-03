@@ -8,6 +8,7 @@ use App\Http\Requests\Warehouse\AddRequest;
 use App\Http\Requests\Warehouse\SoldRequest;
 use App\Services\PaginationService;
 use App\Services\WarehouseService;
+use App\Stock;
 use App\Warehouse;
 use Illuminate\Support\Carbon;
 
@@ -32,28 +33,29 @@ class WarehouseController extends Controller
         $warehouses = Warehouse::exist()
             ->where('user_id', $userID)
             ->orderBy('buy_price', 'asc')
-            ->orderBy('type', 'asc')
-            ->filterType(request('type'))
+            ->orderBy('stock_id', 'asc')
+            ->filterStockID(request('stockID'))
+            ->with('stock')
             ->paginate(50);
 
-        $items = [];
-        $warehouseTypes = $warehouseService->getUserWarehouseTypes($userID);
-        $this->addWarehouseTypeAll($warehouseTypes);
+        $stockIDs = $warehouseService->getUserWarehouseStockIDs($userID);
+        $this->addWarehouseStockAll($stockIDs);
 
+        $items = [];
         foreach ($warehouses as $warehouse) {
             $items[$warehouse->id] = [
                 'id'        => $warehouse->id,
-                'name'      => $warehouse->present()->typeChineseName(),
-                'type'      => $warehouse->type,
+                'name'      => $warehouse->stock->name,
+                'stock_id'  => $warehouse->stock_id,
                 'buy_price' => $warehouse->buy_price,
                 'buy_date'  => $warehouse->buy_date
             ];
         }
 
         $result = [
+            'stockIDs'   => $stockIDs,
             'pagination' => $paginationService->toVuePaginationComponent($warehouses),
             'items'      => $items,
-            'types'      => $warehouseTypes,
         ];
 
         return response()->json(
@@ -65,14 +67,13 @@ class WarehouseController extends Controller
     }
 
     /**
-     * 將 types 增加 all type 選項
+     * 將 stock ID 增加 all 選項
      *
-     * @param $warehouseTypes
+     * @param $warehouseStocks
      */
-    protected function addWarehouseTypeAll(&$warehouseTypes)
+    protected function addWarehouseStockAll(&$stockIDs)
     {
-        $warehouseTypeAll = new WarehouseType(WarehouseType::全部);
-        $warehouseTypes[$warehouseTypeAll->getValue()] = $warehouseTypeAll->getKey();
+        $stockIDs['all'] = '全部';
     }
 
     /**
@@ -89,14 +90,14 @@ class WarehouseController extends Controller
 
         //張數
         $sheets = $request->get('sheets');
-        $type = $request->get('type');
+        $stockID = $request->get('buyStockID');
         $buyPrice = $request->get('buyPrice');
         $buyDate = $request->get('buyDate');
 
         foreach (range(1, $sheets) as $index) {
             $warehouses[] = [
                 'user_id'    => $userId,
-                'type'       => $type,
+                'stock_id'   => $stockID,
                 'buy_price'  => $buyPrice,
                 'buy_date'   => $buyDate,
                 'created_at' => today(),
@@ -142,17 +143,18 @@ class WarehouseController extends Controller
             ->where('user_id', $userID)
             ->orderBy('sold_date', 'desc')
             ->orderBy('updated_at', 'desc')
-            ->filterType(request('type'))
+            ->filterStockID(request('stockID'))
+            ->with('stock')
             ->paginate(100);
 
-        $warehouseTypes = $warehouseService->getUserDealWarehouseTypes($userID);
-        $this->addWarehouseTypeAll($warehouseTypes);
+        $stockIDs = $warehouseService->getUserDealWarehouseStockIDs($userID);
+        $this->addWarehouseStockAll($stockIDs);
 
         $items = [];
         foreach ($warehouses as $warehouse) {
             $items[] = [
                 'id'         => $warehouse->id,
-                'name'       => $warehouse->present()->typeChineseName(),
+                'name'       => $warehouse->stock->name,
                 'type'       => $warehouse->type,
                 'buy_price'  => $warehouse->buy_price,
                 'buy_date'   => $warehouse->buy_date,
@@ -163,9 +165,9 @@ class WarehouseController extends Controller
         }
 
         $result = [
+            'stockIDs'   => $stockIDs,
             'pagination' => $paginationService->toVuePaginationComponent($warehouses),
             'items'      => $items,
-            'types'      => $warehouseTypes,
         ];
 
         return response()->json(

@@ -42998,25 +42998,24 @@ window.vm = new Vue({
     el: '#app',
     data: {
         warehouse: {
-            'types': {},
+            'stockIDs': {},
             'currentPage': 1,
-            'currentType': '',
+            'currentStockID': '',
             'items': {},
             'pagination': ''
         },
         dealWarehouse: {
-            'types': {},
+            'stockIDs': {},
             'currentPage': 1,
-            'currentType': '',
+            'currentStockID': '',
             'items': {},
             'pagination': ''
         },
         soldWarehouses: {}
-
     },
     mounted: function mounted() {
-        this.selectedWarehouseType = this.cookieWarehouseType;
-        this.selectedDealWarehouseType = this.cookieDealWarehouseType;
+        this.selectedWarehouseStockID = this.cookieWarehouseStockID;
+        this.selectedDealWarehouseStockID = this.cookieDealWarehouseStockID;
     },
     methods: {
         getWarehousePage: function getWarehousePage(page) {
@@ -43038,7 +43037,8 @@ window.vm = new Vue({
             window.axios.get(url).then(function (response) {
                 if (response.status === 200) {
                     items = response.data.items;
-                    _this.warehouse.types = items.types;
+                    console.log(items.items);
+                    _this.warehouse.stockIDs = items.stockIDs;
                     _this.warehouse.items = items.items;
                     _this.warehouse.pagination = items.pagination;
                 }
@@ -43052,7 +43052,7 @@ window.vm = new Vue({
             window.axios.get(url).then(function (response) {
                 if (response.status === 200) {
                     items = response.data.items;
-                    _this2.dealWarehouse.types = items.types;
+                    _this2.dealWarehouse.stockIDs = items.stockIDs;
                     _this2.dealWarehouse.items = items.items;
                     _this2.dealWarehouse.pagination = items.pagination;
                 }
@@ -43060,59 +43060,59 @@ window.vm = new Vue({
         }
     },
     computed: {
-        buyType: {
+        buyStockID: {
             get: function get() {
-                return $.cookie("buyType");
+                return $.cookie("buyStockID");
             },
-            set: function set(type) {
-                $.cookie("buyType", type);
+            set: function set($stockID) {
+                $.cookie("buyStockID", $stockID);
             }
         },
-        cookieWarehouseType: {
+        cookieWarehouseStockID: {
             get: function get() {
-                return $.cookie("warehouseType");
+                return $.cookie("warehouseStockID");
             },
-            set: function set(type) {
-                $.cookie("warehouseType", type);
+            set: function set(stockID) {
+                $.cookie("warehouseStockID", stockID);
             }
         },
-        cookieDealWarehouseType: {
+        cookieDealWarehouseStockID: {
             get: function get() {
-                return $.cookie("dealWarehouseType");
+                return $.cookie("dealWarehouseStockID");
             },
-            set: function set(type) {
-                $.cookie("dealWarehouseType", type);
+            set: function set(stockID) {
+                $.cookie("dealWarehouseStockID", stockID);
             }
         },
         warehouseUrl: function warehouseUrl() {
             var page = 'page=' + this.warehouse.currentPage;
-            var type = 'type=' + this.selectedWarehouseType;
-            return $('#ajaxWarehouseRecordUrl').val() + '?' + page + '&' + type;
+            var stockID = 'stockID=' + this.selectedWarehouseStockID;
+            return $('#ajaxWarehouseRecordUrl').val() + '?' + page + '&' + stockID;
         },
         dealWarehouseUrl: function dealWarehouseUrl() {
             var page = 'page=' + this.dealWarehouse.currentPage;
-            var type = 'type=' + this.selectedDealWarehouseType;
-            return $('#ajaxWarehouseDealRecordUrl').val() + '?' + page + '&' + type;
+            var stockID = 'stockID=' + this.selectedDealWarehouseStockID;
+            return $('#ajaxWarehouseDealRecordUrl').val() + '?' + page + '&' + stockID;
         },
-        selectedWarehouseType: {
+        selectedWarehouseStockID: {
             get: function get() {
-                return this.warehouse.currentType === undefined ? 'all' : this.warehouse.currentType;
+                return this.warehouse.currentStockID === undefined ? 'all' : this.warehouse.currentStockID;
             },
-            set: function set(type) {
+            set: function set(stockID) {
                 this.warehouse.currentPage = 1;
-                this.warehouse.currentType = type;
-                this.cookieWarehouseType = type;
+                this.warehouse.currentStockID = stockID;
+                this.cookieWarehouseStockID = stockID;
                 this.setWarehouseItems();
             }
         },
-        selectedDealWarehouseType: {
+        selectedDealWarehouseStockID: {
             get: function get() {
-                return this.dealWarehouse.currentType === undefined ? 'all' : this.dealWarehouse.currentType;
+                return this.dealWarehouse.currentStockID === undefined ? 'all' : this.dealWarehouse.currentStockID;
             },
-            set: function set(type) {
+            set: function set(stockID) {
                 this.dealWarehouse.currentPage = 1;
-                this.dealWarehouse.currentType = type;
-                this.cookieDealWarehouseType = type;
+                this.dealWarehouse.currentStockID = stockID;
+                this.cookieDealWarehouseStockID = stockID;
                 this.setDealWarehouseItems();
             }
         }
@@ -43725,6 +43725,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['pagination', 'getPage'],
@@ -43754,18 +43755,24 @@ var render = function() {
                 index == _vm.pagination.currentPage ? "disabled" : "pointer"
             },
             [
-              _c(
-                "a",
-                {
-                  attrs: { rel: "prev" },
-                  on: {
-                    click: function($event) {
-                      _vm.getPage(index)
-                    }
-                  }
-                },
-                [_vm._v(_vm._s(index))]
-              )
+              index != _vm.pagination.currentPage
+                ? _c(
+                    "a",
+                    {
+                      attrs: { rel: "prev" },
+                      on: {
+                        click: function($event) {
+                          _vm.getPage(index)
+                        }
+                      }
+                    },
+                    [_vm._v(_vm._s(index))]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              index == _vm.pagination.currentPage
+                ? _c("a", { attrs: { rel: "prev" } }, [_vm._v(_vm._s(index))])
+                : _vm._e()
             ]
           )
         }),
