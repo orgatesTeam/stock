@@ -20,11 +20,9 @@
             <div class="form-group">
                 <label for="type" class="col-sm-2 control-label">類型：</label>
                 <div class="col-sm-9" name="type">
-                    <select name="type" v-model="buyType">
-                        @foreach(config('warehouse.name') as $key=>$value)
-                            @if($value != \App\Enums\WarehouseType::全部)
-                                <option value="{{$key}}">{{$value}}</option>
-                            @endif
+                    <select name="buyStockID" v-model="buyStockID">
+                        @foreach(config('stocks') as $id=>$columns)
+                            <option value="{{$id}}">{{$columns['name']}}</option>
                         @endforeach
                     </select>
                 </div>

@@ -1,8 +1,8 @@
 <div id="record" class="tab-pane fade">
 
     <div>
-        <select id="dealType" v-model="selectedDealWarehouseType">
-            <option v-for="key,value in dealWarehouse.types" v-bind:value="value">@{{ key }}</option>
+        <select id="dealStockID" v-model="selectedDealWarehouseStockID" v-show="dealWarehouse.stockIDs">
+            <option v-for="value,key in dealWarehouse.stockIDs" :value="key">@{{ value }}</option>
         </select>
     </div>
 

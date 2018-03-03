@@ -10,7 +10,7 @@ class Warehouse extends Model
 {
     use Presenter;
 
-    protected $fillable = ['user_id', 'type', 'is_sold', 'buy_date', 'buy_price', 'sold_date', 'sold_price'];
+    protected $fillable = ['user_id', 'stock_id', 'is_sold', 'buy_date', 'buy_price', 'sold_date', 'sold_price'];
 
     public function scopeExist($query)
     {
@@ -22,12 +22,15 @@ class Warehouse extends Model
         return $query->where('is_sold', 1);
     }
 
-    public function scopeFilterType($query, $type)
+    public function scopeFilterStockID(&$query, $stockID)
     {
-        if ($type == WarehouseType::全部 || !$type) {
-            return $query;
+        if ($stockID > 0) {
+            $query->where('stock_id', $stockID);
         }
+    }
 
-        return $query->where('type', $type);
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class, 'stock_id');
     }
 }

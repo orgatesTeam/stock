@@ -9,25 +9,24 @@ window.vm = new Vue({
     el: '#app',
     data: {
         warehouse:{
-            'types':{},
+            'stockIDs':{},
             'currentPage':1,
-            'currentType':'',
+            'currentStockID':'',
             'items':{},
             'pagination':''
         },
         dealWarehouse:{
-            'types':{},
+            'stockIDs':{},
             'currentPage':1,
-            'currentType':'',
+            'currentStockID':'',
             'items':{},
             'pagination':''
         },
         soldWarehouses:{}
-
     },
     mounted: function () {
-        this.selectedWarehouseType = this.cookieWarehouseType;
-        this.selectedDealWarehouseType = this.cookieDealWarehouseType;
+        this.selectedWarehouseStockID = this.cookieWarehouseStockID;
+        this.selectedDealWarehouseStockID = this.cookieDealWarehouseStockID;
     },
     methods: {
         getWarehousePage: function(page){
@@ -48,7 +47,8 @@ window.vm = new Vue({
                 .then((response) => {
                 if(response.status === 200){
                 items = response.data.items;
-                this.warehouse.types = items.types;
+                console.log(items.items);
+                this.warehouse.stockIDs = items.stockIDs;
                 this.warehouse.items = items.items;
                 this.warehouse.pagination = items.pagination;
             }});
@@ -60,66 +60,66 @@ window.vm = new Vue({
                 .then((response) => {
                 if(response.status === 200){
                 items = response.data.items;
-                this.dealWarehouse.types = items.types;
+                this.dealWarehouse.stockIDs = items.stockIDs;
                 this.dealWarehouse.items = items.items;
                 this.dealWarehouse.pagination = items.pagination;
             }});
         },
     },
     computed: {
-        buyType: {
+        buyStockID: {
             get: function (){
-                return $.cookie("buyType");
+                return $.cookie("buyStockID");
             },
-            set: function(type){
-                $.cookie("buyType", type);
+            set: function($stockID){
+                $.cookie("buyStockID", $stockID);
             }
         },
-        cookieWarehouseType: {
+        cookieWarehouseStockID: {
             get: function (){
-                return $.cookie("warehouseType");
+                return $.cookie("warehouseStockID");
             },
-            set: function(type){
-                $.cookie("warehouseType", type);
+            set: function(stockID){
+                $.cookie("warehouseStockID", stockID);
             }
         },
-        cookieDealWarehouseType: {
+        cookieDealWarehouseStockID: {
             get: function (){
-                return $.cookie("dealWarehouseType");
+                return $.cookie("dealWarehouseStockID");
             },
-            set: function(type){
-                $.cookie("dealWarehouseType", type);
+            set: function(stockID){
+                $.cookie("dealWarehouseStockID", stockID);
             }
         },
         warehouseUrl: function (){
             let page = 'page='+ this.warehouse.currentPage;
-            let type = 'type='+ this.selectedWarehouseType;
-            return $('#ajaxWarehouseRecordUrl').val()+'?'+page+'&'+type;
+            let stockID = 'stockID='+ this.selectedWarehouseStockID;
+            return $('#ajaxWarehouseRecordUrl').val()+'?'+page+'&'+stockID;
         },
         dealWarehouseUrl: function (){
             let page = 'page='+ this.dealWarehouse.currentPage;
-            let type = 'type='+ this.selectedDealWarehouseType;
-            return $('#ajaxWarehouseDealRecordUrl').val()+'?'+page+'&'+type;
+            let stockID = 'stockID='+ this.selectedDealWarehouseStockID;
+            return $('#ajaxWarehouseDealRecordUrl').val()+'?'+page+'&'+stockID;
         },
-        selectedWarehouseType: {
+        selectedWarehouseStockID: {
             get: function () {
-                return (this.warehouse.currentType === undefined) ? 'all' : this.warehouse.currentType;
+                return (this.warehouse.currentStockID === undefined) ? 'all' : this.warehouse.currentStockID;
             },
-            set: function (type) {
+            set: function (stockID) {
                 this.warehouse.currentPage = 1;
-                this.warehouse.currentType = type;
-                this.cookieWarehouseType = type;
+                this.warehouse.currentStockID = stockID;
+                this.cookieWarehouseStockID = stockID;
                 this.setWarehouseItems();
             }
         },
-        selectedDealWarehouseType: {
+        selectedDealWarehouseStockID: {
             get: function () {
-                return (this.dealWarehouse.currentType === undefined) ? 'all' : this.dealWarehouse.currentType;
+                return (this.dealWarehouse.currentStockID === undefined) ? 'all' : this.dealWarehouse.currentStockID;
             },
-            set: function (type) {
+            set: function (stockID) {
                 this.dealWarehouse.currentPage = 1;
-                this.dealWarehouse.currentType = type;
-                this.cookieDealWarehouseType = type;
+                this.dealWarehouse.currentStockID = stockID;
+                this.cookieDealWarehouseStockID = stockID;
                 this.setDealWarehouseItems();
             }
         }

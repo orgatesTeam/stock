@@ -7,7 +7,7 @@
     @include('warehouse.soldModal')
     <div class="row">
         <div class="container">
-            <div class="row" style="margin-bottom: 30px">
+            <div class="row bottom-s">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#warehouse">目前庫存量</a></li>
                     <li><a data-toggle="tab" href="#new">新增庫存</a></li>

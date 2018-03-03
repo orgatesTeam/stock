@@ -11,33 +11,36 @@ class WarehouseService extends Service
 {
     protected $repository;
 
-    public function getUserWarehouseTypes($userID)
+    public function getUserWarehouseStockIDs($userID)
     {
         $warehouses = Warehouse::exist()
             ->where('user_id', $userID)
-            ->groupBy('type')
-            ->select('type')
+            ->groupBy('stock_id')
+            ->select('stock_id')
+            ->with('stock')
             ->get();
 
+        $stockIDs = [];
         foreach ($warehouses as $warehouse) {
-            $types[$warehouse->type] = $warehouse->present()->typeChineseName();
+            $stockIDs[$warehouse->stock_id] = $warehouse->stock->name;
         }
 
-        return $types;
+        return $stockIDs;
     }
 
-    public function getUserDealWarehouseTypes($userID)
+    public function getUserDealWarehouseStockIDs($userID)
     {
         $warehouses = Warehouse::isSold()
             ->where('user_id', $userID)
-            ->groupBy('type')
-            ->select('type')
+            ->groupBy('stock_id')
+            ->select('stock_id')
+            ->with('stock')
             ->get();
 
         foreach ($warehouses as $warehouse) {
-            $types[$warehouse->type] = $warehouse->present()->typeChineseName();
+            $stockIDs[$warehouse->stock_id] = $warehouse->stock->name;
         }
 
-        return $types;
+        return $stockIDs;
     }
 }

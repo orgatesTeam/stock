@@ -12,17 +12,40 @@ class StocksTableSeeder extends Seeder
      */
     public function run()
     {
-        $stocks = [
+        Stock::insert($this->stocks());
+        $stocks = Stock::all();
+        $this->makeConfig($stocks);
+    }
+
+    protected function makeConfig($stocks)
+    {
+        $filePath = base_path() . '/config/stocks.php';
+
+        if (is_file($filePath)) {
+            unlink($filePath);
+        }
+
+        $output = '';
+        foreach ($stocks as $stock) {
+            $output .= " '$stock->id' => ['no'=>'$stock->no' , 'name' => '$stock->name'] ,";
+        }
+        $output = str_replace("output", $output, "<?php return [output];");
+
+        $file = fopen($filePath, "a+");
+        fwrite($file, $output);
+    }
+
+    protected function stocks()
+    {
+        return [
             [
-               'no'=>'00627L',
-                'name'=>'元大S&P原油正2'
+                'no'   => '00627L',
+                'name' => '元大S&P原油正2'
             ],
             [
-                'no'=>'00637L',
-                'name'=>'元大滬深300正2'
+                'no'   => '00637L',
+                'name' => '元大滬深300正2'
             ]
         ];
-
-        Stock::insert($stocks);
     }
 }

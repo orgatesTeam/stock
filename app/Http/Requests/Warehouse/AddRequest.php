@@ -13,7 +13,7 @@ class AddRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return array_key_exists(request('buyStockID'),config('stocks'));
     }
 
     /**
