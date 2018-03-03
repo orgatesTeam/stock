@@ -2,7 +2,7 @@
     <div>
         <button type="button" class="btn btn-danger bottom-s btn-lg"
                 data-toggle="modal" data-target="#myModal"
-                v-if="showSoldButton"
+                v-show="showSoldButton"
                 @click="sold(checkedWarehouses)"
         >賣出</button>
         <table class="table table-striped table-bordered table-responsive table-h3">

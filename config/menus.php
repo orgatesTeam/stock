@@ -8,5 +8,5 @@ return [
     'warehouse' => [
         'name'    => '庫存買賣',
         'routeAs' => 'warehouse.show'
-    ]
+    ],
 ];

@@ -43018,7 +43018,7 @@ window.vm = new Vue({
             this.msPercent = $('#ms-percent').val();
             this.money = $('#money').val();
             this.waveMoney = $('#wave-money').val();
-            var url = $('#ajax-short-valuation').val();
+            var url = $('#ajaxAnalysisUrl').val();
             url += '?wavePoint=' + this.wavePoint + '&msPercent=' + this.msPercent + '&money=' + this.money + "&waveMoney=" + this.waveMoney;
             window.axios.get(url).then(function (response) {
                 if (response.status === 200) {

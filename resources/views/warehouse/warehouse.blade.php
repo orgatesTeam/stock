@@ -1,7 +1,7 @@
 <div id="warehouse" class="tab-pane fade  in active">
 
     <div>
-        <select id="warehouseType" v-model="selectedWarehouseType" v-if="warehouse.types">
+        <select id="warehouseType" v-model="selectedWarehouseType" v-show="warehouse.types">
             <option v-for="key,value in warehouse.types" :value="value">@{{ key }}</option>
         </select>
     </div>

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Caches;
 
-class AnalysisRepository
+class AnalysisShortRepository
 {
     use AccessCache;
 
@@ -26,6 +26,5 @@ class AnalysisRepository
         $key = self::PREFIX_ANALYSIS . $userId;
         $this->cache()->expire($key, self::SAVE_EXPIRE);
         return $this->cache()->hGetAll($key);
-
     }
 }

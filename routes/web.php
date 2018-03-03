@@ -12,14 +12,14 @@
 */
 Route::group(['middleware' => ['auth','throttle:60,1']], function () {
 
-    Route::get('/', 'AnalysisController@shortShow');
+    Route::get('/', 'AnalysisShortController@show');
 
     /**
      * 短期分析
      */
-    Route::group(['prefix'=>'analysis'],function(){
-        Route::get('/analysis-short', 'AnalysisController@shortShow')->name('analysis.short.show');
-        Route::get('/analysis-valuation', 'AnalysisController@shortValuation')->name('analysis.short.valuation');
+    Route::group(['prefix'=>'analysis/short'],function(){
+        Route::get('/show', 'AnalysisShortController@show')->name('analysis.short.show');
+        Route::get('/analysis', 'AnalysisShortController@analysis')->name('analysis.short.analysis');
     });
 
     /**

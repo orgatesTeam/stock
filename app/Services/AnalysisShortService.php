@@ -5,27 +5,32 @@ namespace App\Services;
 use App\Repositories\AnalysisShortRepository;
 use Yish\Generators\Foundation\Service\Service;
 
-class AnalysisService extends Service
+class AnalysisShortService extends Service
 {
     protected $repository;
 
-    public function shortAnalysisData($wavePoint, $msPercent, $money, $waveMoney)
+    public function __construct(AnalysisShortRepository $analysisShortRepository)
     {
-        $analysisShortRepository = app(AnalysisShortRepository::class);
+        $this->repository = $analysisShortRepository;
+    }
+
+    public function analysis($wavePoint, $msPercent, $money, $waveMoney)
+    {
+        $analysisShortRepository = $this->repository;
 
         $upPipe = $analysisShortRepository->upPipe($wavePoint, $waveMoney);
         $downPipe = $analysisShortRepository->downPipe($wavePoint, $waveMoney);
         $whilePoint = $analysisShortRepository->whilePoint($wavePoint, $waveMoney);
         $buyPointInfo = $analysisShortRepository->buyPoint($msPercent, $whilePoint, $money);
-        $upPipeStrategies = $this->warehouseStrategies(
+        $upPipeStrategies = $analysisShortRepository->warehouseStrategies(
             $buyPointInfo['buySheets'],
             $upPipe
         );
-        $downPipeStrategies = $this->warehouseStrategies(
+        $downPipeStrategies = $analysisShortRepository->warehouseStrategies(
             $buyPointInfo['buySheets'],
             $downPipe
         );
-        $whilePipeStrategies = $this->warehouseStrategies(
+        $whilePipeStrategies = $analysisShortRepository->warehouseStrategies(
             $buyPointInfo['buySheets'],
             $whilePoint
         );
@@ -39,83 +44,6 @@ class AnalysisService extends Service
             $downPipeStrategies,
             $whilePipeStrategies
         );
-    }
-
-    /**
-     * 建倉策略
-     *
-     * @param $sheetTotal  總建倉張數
-     * @param $pipe 煙斗屬性
-     * @param $warehouseMoneyDistance 建倉區間價格
-     *
-     * @return array
-     */
-    protected function warehouseStrategies($sheetTotal, $pipe)
-    {
-        //除法是獲得區塊，但為了獲得數字點需要減 1
-        $sheetTotal = $sheetTotal - 1;
-        $middleMoney = $pipe['middle'];
-        $bottomMoney = $pipe['bottom'];
-        $distanceMoney = $middleMoney - $bottomMoney;
-
-        //例外處理
-        if ($sheetTotal < 1) {
-            return [0 => [
-                'money' => $middleMoney,
-                'sheet' => 0
-            ]];
-        };
-
-        //0.1以上張數間距價格 一個間距多少張數
-        $everySheet = 1;
-        while ($distanceMoney / ($sheetTotal / $everySheet) <= 0.1 ) {
-            $everySheet++;
-            if ($everySheet > 100) {
-                break;
-            }
-        }
-
-        $maxForeachTime = intval($sheetTotal / $everySheet);
-        $everyMoney = $distanceMoney / $maxForeachTime;
-        $money = $middleMoney;
-        foreach (range(0, $maxForeachTime) as $index) {
-            $result[] = [
-                'money' => round($money, 2),
-                'sheet' => $everySheet
-            ];
-            $money = $money - $everyMoney;
-        }
-
-        return $result;
-    }
-
-    //無條件進位
-    protected function ceil_dec($v, $precision)
-    {
-        $c = pow(10, $precision);
-        return ceil($v * $c) / $c;
-    }
-
-    protected function allocateSheets(int $sheetTotal)
-    {
-        $everyTimeAddOne = 5;
-        $add = 1;
-        $time = 0;
-        $result = [];
-
-        // 1+1+1+1+1+2+2+2.... 每五次增加一單位
-        while ($sheetTotal >= 1) {
-
-            if ($time++ >= $everyTimeAddOne) {
-                $add++;
-                $time = 0;
-            }
-
-            $result[] = $add;
-            $sheetTotal -= $add;
-        }
-
-        return $result;
     }
 
     protected function formatterShortAnalysis($upPipe, $downPipe, $whilePoint, $buyPointInfo, $upPipeStrategies,
