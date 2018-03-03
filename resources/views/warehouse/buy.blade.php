@@ -23,7 +23,7 @@
                     <select name="type" v-model="buyType">
                         @foreach(config('warehouse.name') as $key=>$value)
                             @if($value != \App\Enums\WarehouseType::全部)
-                                <option value="{{$key}}">{{$value.'('.$key.')'}}</option>
+                                <option value="{{$key}}">{{$value}}</option>
                             @endif
                         @endforeach
                     </select>

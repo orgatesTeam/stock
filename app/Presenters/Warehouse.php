@@ -9,6 +9,6 @@ class Warehouse extends Presenter
     public function typeChineseName()
     {
         $type = $this->attribute('type');
-        return  config('warehouse.name.'.$type).'('.$type.')';
+        return  config('warehouse.name.'.$type);
     }
 }
