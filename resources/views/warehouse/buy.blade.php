@@ -21,9 +21,9 @@
                 <label for="type" class="col-sm-2 control-label">類型：</label>
                 <div class="col-sm-9" name="type">
                     <select name="type" v-model="buyType">
-                        @foreach(\App\Enums\WarehouseType::toArray() as $key=>$value)
+                        @foreach(config('warehouse.name') as $key=>$value)
                             @if($value != \App\Enums\WarehouseType::全部)
-                                <option value="{{$value}}">{{$key}}</option>
+                                <option value="{{$key}}">{{$value.'('.$key.')'}}</option>
                             @endif
                         @endforeach
                     </select>
