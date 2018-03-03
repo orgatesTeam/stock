@@ -3,23 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Formatters\Success;
-use App\Repositories\Caches\AnalysisRepository as CacheRepository;
-use App\Services\AnalysisService;
-use Illuminate\Http\Request;
+use App\Repositories\Caches\AnalysisShortRepository as CacheRepository;
+use App\Services\AnalysisShortService;
 
-class AnalysisController extends Controller
+class AnalysisShortController extends Controller
 {
     private $service;
     private $cacheRepository;
 
-    public function __construct(AnalysisService $service,
+    public function __construct(AnalysisShortService $service,
                                 CacheRepository $cacheRepository)
     {
         $this->service = $service;
         $this->cacheRepository = $cacheRepository;
     }
 
-    public function shortShow()
+    public function show()
     {
         $beforeShortValuation = $this->cacheRepository->getBeforeShortAnalysis(auth()->user()->id);
         $wavePoint = $beforeShortValuation['wavePoint'] ?? 22;
@@ -46,21 +45,21 @@ class AnalysisController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function shortValuation(Success $success)
+    public function analysis(Success $success)
     {
         $wavePoint = request('wavePoint');
         $msPercent = request('msPercent') / 100;
         $money = request('money') * 10000;
         $waveMoney = request('waveMoney');
 
-        $result = $this->service->shortAnalysisData(
+        $result = $this->service->analysis(
             $wavePoint,
             $msPercent,
             $money,
             $waveMoney
         );
 
-        $this->saveShortValuationRequest(auth()->user()->id);
+        $this->saveRequestValueToCache(auth()->user()->id);
 
         return response()->json(
             $success->format(
@@ -70,7 +69,7 @@ class AnalysisController extends Controller
         );
     }
 
-    protected function saveShortValuationRequest(int $userId)
+    protected function saveRequestValueToCache(int $userId)
     {
         $this->cacheRepository->saveShortAnalysis(
             $userId,

@@ -43377,25 +43377,31 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.showSoldButton
-      ? _c(
-          "button",
+    _c(
+      "button",
+      {
+        directives: [
           {
-            staticClass: "btn btn-danger bottom-s btn-lg",
-            attrs: {
-              type: "button",
-              "data-toggle": "modal",
-              "data-target": "#myModal"
-            },
-            on: {
-              click: function($event) {
-                _vm.sold(_vm.checkedWarehouses)
-              }
-            }
-          },
-          [_vm._v("賣出")]
-        )
-      : _vm._e(),
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showSoldButton,
+            expression: "showSoldButton"
+          }
+        ],
+        staticClass: "btn btn-danger bottom-s btn-lg",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#myModal"
+        },
+        on: {
+          click: function($event) {
+            _vm.sold(_vm.checkedWarehouses)
+          }
+        }
+      },
+      [_vm._v("賣出")]
+    ),
     _vm._v(" "),
     _c(
       "table",

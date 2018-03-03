@@ -86,4 +86,52 @@ class AnalysisShortRepository extends Repository
 
         return $money;
     }
+
+    /**
+     * 建倉策略
+     *
+     * @param $sheetTotal  總建倉張數
+     * @param $pipe 煙斗屬性
+     * @param $warehouseMoneyDistance 建倉區間價格
+     *
+     * @return array
+     */
+    public function warehouseStrategies($sheetTotal, $pipe)
+    {
+        //除法是獲得區塊，但為了獲得數字點需要減 1
+        $sheetTotal = $sheetTotal - 1;
+        $middleMoney = $pipe['middle'];
+        $bottomMoney = $pipe['bottom'];
+        $distanceMoney = $middleMoney - $bottomMoney;
+
+        //例外處理
+        if ($sheetTotal < 1) {
+            return [0 => [
+                'money' => $middleMoney,
+                'sheet' => 0
+            ]];
+        };
+
+        //0.1以上張數間距價格 一個間距多少張數
+        $everySheet = 1;
+        while ($distanceMoney / ($sheetTotal / $everySheet) <= 0.1 ) {
+            $everySheet++;
+            if ($everySheet > 100) {
+                break;
+            }
+        }
+
+        $maxForeachTime = intval($sheetTotal / $everySheet);
+        $everyMoney = $distanceMoney / $maxForeachTime;
+        $money = $middleMoney;
+        foreach (range(0, $maxForeachTime) as $index) {
+            $result[] = [
+                'money' => round($money, 2),
+                'sheet' => $everySheet
+            ];
+            $money = $money - $everyMoney;
+        }
+
+        return $result;
+    }
 }

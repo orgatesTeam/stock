@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    <input id="ajax-short-valuation" type="hidden" value="{{route('analysis.short.valuation')}}">
+    <input id="ajaxAnalysisUrl" type="hidden" value="{{route('analysis.short.analysis')}}">
 @endsection
 @section('script')
     <script src="{{mix('/js/pages/analysisShort.js')}}"></script>
