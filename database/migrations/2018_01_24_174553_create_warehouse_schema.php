@@ -17,7 +17,7 @@ class CreateWarehouseSchema extends Migration
         Schema::create($this->table, function (Blueprint $table) {
             $table->increments('id')->index();
             $table->integer('user_id');
-            $table->string('type')->comment('商品類型')->nullable();
+            $table->string('stock_id')->nullable();
             $table->integer('is_sold')->comment('賣出狀態 0:未出 1:已出')->default(0);
             $table->date('buy_date')->comment('買入日期');
             $table->float('buy_price');
