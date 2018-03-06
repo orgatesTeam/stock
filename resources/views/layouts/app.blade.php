@@ -18,7 +18,7 @@
 <body>
 <div class="container">
     <div class="row">
-       @include('layouts.alert')
+        @include('layouts.alert')
     </div>
     <div class="row bottom-s">
         @if(auth()->user())
@@ -50,7 +50,8 @@
                             <li>
                                 <ul class="nav top-menu">
                                     <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#"
+                                           aria-expanded="false">
                                             <img style="border-radius: 50%;" width="28"
                                                  src="{{auth()->user()->avatar}}">
                                             <span class="username"> 系統管理員</span>
@@ -73,7 +74,8 @@
         @endif
     </div>
     <div class="container">
-        <div id="app">
+        @yield('content-not-vue')
+        <div id="app" v-cloak>
             @yield('content')
         </div>
     </div>
