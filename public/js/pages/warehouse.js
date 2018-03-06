@@ -43002,7 +43002,8 @@ window.vm = new Vue({
             'currentPage': 1,
             'currentStockID': '',
             'items': {},
-            'pagination': ''
+            'pagination': '',
+            'stockCurrentPrice': {}
         },
         dealWarehouse: {
             'stockIDs': {},
@@ -43041,6 +43042,7 @@ window.vm = new Vue({
                     _this.warehouse.stockIDs = items.stockIDs;
                     _this.warehouse.items = items.items;
                     _this.warehouse.pagination = items.pagination;
+                    _this.warehouse.stockCurrentPrice = items.stockCurrentPrice;
                 }
             });
         },
@@ -43327,9 +43329,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['warehouses', 'sold'],
+    props: ['warehouse', 'sold'],
     data: function data() {
         return {
             check: true,
@@ -43340,7 +43360,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         setWarehouses: function setWarehouses() {
             var checkedWarehouses = {};
-            var warehouses = this.warehouses;
+            var warehouses = this.warehouse.items;
             $('input:checkbox:checked[name="warehouseCheckbox[]"]').each(function (i) {
                 checkedWarehouses[this.value] = warehouses[this.value];
             });
@@ -43355,11 +43375,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var checked = $("input[value='" + id + "']").prop('checked');
             $("input[value='" + id + "']").prop('checked', !checked);
             this.setWarehouses();
+        },
+        showStockName: function showStockName(stockID) {
+            return this.warehouse.stockIDs[stockID];
         }
     },
     computed: {
         showSoldButton: function showSoldButton() {
-            console.log(this.checkedWarehouses);
             return Object.keys(this.checkedWarehouses).length > 0;
         },
         showCheckboxAllName: function showCheckboxAllName() {
@@ -43377,6 +43399,32 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("h3", { staticClass: "red-font" }, [_vm._v("股票價格")]),
+    _vm._v(" "),
+    _c(
+      "table",
+      {
+        staticClass:
+          "table table-striped table-bordered table-responsive table-h3"
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.warehouse.stockCurrentPrice, function(warehouse, id) {
+            return _c("tr", [
+              _c("td", [_vm._v(_vm._s(_vm.showStockName(id)))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(warehouse))])
+            ])
+          })
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c("h3", { staticClass: "red-font" }, [_vm._v("庫存量")]),
+    _vm._v(" "),
     _c(
       "button",
       {
@@ -43433,7 +43481,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.warehouses, function(warehouse, id) {
+          _vm._l(_vm.warehouse.items, function(warehouse, id) {
             return _c(
               "tr",
               {
@@ -43495,7 +43543,20 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("名稱")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("目前金額")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
