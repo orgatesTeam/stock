@@ -9,6 +9,7 @@ use App\Http\Requests\Warehouse\SoldRequest;
 use App\Services\PaginationService;
 use App\Services\WarehouseService;
 use App\Stock;
+use App\StockFluctuation;
 use App\Warehouse;
 use Illuminate\Support\Carbon;
 
@@ -40,6 +41,7 @@ class WarehouseController extends Controller
 
         $stockIDs = $warehouseService->getUserWarehouseStockIDs($userID);
         $this->addWarehouseStockAll($stockIDs);
+        $mapStockFluctuations = $this->getMapStockFluctuations($warehouses);
 
         $items = [];
         foreach ($warehouses as $warehouse) {
@@ -48,14 +50,15 @@ class WarehouseController extends Controller
                 'name'      => $warehouse->stock->name,
                 'stock_id'  => $warehouse->stock_id,
                 'buy_price' => $warehouse->buy_price,
-                'buy_date'  => $warehouse->buy_date
+                'buy_date'  => $warehouse->buy_date,
             ];
         }
 
         $result = [
-            'stockIDs'   => $stockIDs,
-            'pagination' => $paginationService->toVuePaginationComponent($warehouses),
-            'items'      => $items,
+            'stockIDs'          => $stockIDs,
+            'pagination'        => $paginationService->toVuePaginationComponent($warehouses),
+            'items'             => $items,
+            'stockCurrentPrice' => $mapStockFluctuations
         ];
 
         return response()->json(
@@ -64,6 +67,25 @@ class WarehouseController extends Controller
                 $result
             )
         );
+    }
+
+    protected function getMapStockFluctuations($warehouses)
+    {
+        $stockIDs = [];
+        foreach ($warehouses as $warehouse) {
+            $stockIDs[$warehouse->stock_id] = $warehouse->stock_id;
+        }
+
+        $stockFluctuations = StockFluctuation::whereIn('stock_id', $stockIDs)
+            ->where('created_at', '>', now()->toDateString())
+            ->get();
+
+        $mapStockFluctuations = [];
+        foreach ($stockFluctuations as $stockFluctuation) {
+            $mapStockFluctuations[$stockFluctuation->stock_id] = $stockFluctuation->closing_price;
+        }
+
+        return $mapStockFluctuations;
     }
 
     /**

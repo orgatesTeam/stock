@@ -13,7 +13,8 @@ window.vm = new Vue({
             'currentPage':1,
             'currentStockID':'',
             'items':{},
-            'pagination':''
+            'pagination':'',
+            'stockCurrentPrice':{}
         },
         dealWarehouse:{
             'stockIDs':{},
@@ -51,6 +52,7 @@ window.vm = new Vue({
                 this.warehouse.stockIDs = items.stockIDs;
                 this.warehouse.items = items.items;
                 this.warehouse.pagination = items.pagination;
+                this.warehouse.stockCurrentPrice = items.stockCurrentPrice
             }});
         },
         setDealWarehouseItems: function(){

@@ -42,3 +42,7 @@ select{
 [v-cloak] {
     display: none;
 }
+
+.red-font{
+    color:red;
+}
