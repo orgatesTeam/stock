@@ -39,7 +39,7 @@ class StocksTableSeeder extends Seeder
     {
         return [
             [
-                'no'   => '00627L',
+                'no'   => '00672L',
                 'name' => '元大S&P原油正2'
             ],
             [

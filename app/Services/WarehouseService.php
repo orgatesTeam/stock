@@ -37,6 +37,7 @@ class WarehouseService extends Service
             ->with('stock')
             ->get();
 
+        $stockIDs = [];
         foreach ($warehouses as $warehouse) {
             $stockIDs[$warehouse->stock_id] = $warehouse->stock->name;
         }
