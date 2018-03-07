@@ -18,7 +18,7 @@ trait ConsoleLogTrait
             $filePath = storage_path() . '/logs/console/' . $this->loggerName . today()->toDateString() . '.log';
             $this->logger = new Logger($this->loggerName);
             $this->logger->pushHandler(
-                new StreamHandler($filePath),
+                new StreamHandler($filePath,Logger::DEBUG,true,0777),
                 Logger::INFO);
         }
 
