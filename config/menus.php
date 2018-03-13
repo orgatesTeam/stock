@@ -9,4 +9,8 @@ return [
         'name'    => '庫存買賣',
         'routeAs' => 'warehouse.show'
     ],
+    'chat' => [
+        'name'    => '聊天室',
+        'routeAs' => 'chat.show'
+    ],
 ];

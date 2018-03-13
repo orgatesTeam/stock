@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Socket\ChatSocket;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
     ];
 
     /**
@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         Log::info('schedule run');
-        $schedule->command('pull:stock:closingPrice')->dailyAt(config('schedule.at.pullStockClosingPrice','06:00'));
+        $schedule->command('pull:stock:closingPrice')->dailyAt(config('schedule.at.pullStockClosingPrice', '06:00'));
     }
 
     /**

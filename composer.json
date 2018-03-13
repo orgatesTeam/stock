@@ -15,7 +15,8 @@
         "myclabs/php-enum": "^1.5",
         "orbas/util": "^0.2.1",
         "predis/predis": "^1.1",
-        "yish/generators": "^2.0"
+        "yish/generators": "^2.0",
+        "cboden/ratchet": "^0.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
