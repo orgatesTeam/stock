@@ -26,6 +26,9 @@ redis-server
 ```
 FB_ID=
 FB_SECRET=
-FB_CALLBACK=
 ```
 
+## facebook callbak url
+```
+domain/facebook-callback
+```
