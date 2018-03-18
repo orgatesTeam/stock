@@ -58,7 +58,7 @@
                         <!--</tr>-->
                     </table>
                 </div>
-                <div class="panel-footer" id="list-count">當前在線：0人</div>
+                <div class="panel-footer" id="list-count">當前在線：@{{ onlineCount }}人</div>
             </div>
         </div>
     </div>

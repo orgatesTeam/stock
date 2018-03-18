@@ -78,7 +78,6 @@ class AnalysisShortController extends Controller
                 'msPercent'              => request('msPercent'),
                 'money'                  => request('money'),
                 'waveMoney'              => request('waveMoney'),
-                'warehouseMoneyDistance' => request('warehouseMoneyDistance')
             ]
         );
     }
