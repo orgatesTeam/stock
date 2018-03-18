@@ -19,7 +19,6 @@
                                 <div class="msg-head">
                                       <span class="msg-name label label-primary pull-left">
                                       <span class="glyphicon glyphicon-user"></span>
-                                       &nbsp;李元傑
                                       </span><span class="msg-time label label-default pull-left">
                                       <span class="glyphicon glyphicon-time"></span>
                         &nbsp;@{{ chatItem.datetime }}
@@ -50,7 +49,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-list"></span>
-                    &nbsp;在线名单
+                    &nbsp;在線名單
                 </div>
                 <div class="panel-body list-body">
                     <table class="table table-hover list-table">
@@ -59,7 +58,7 @@
                         <!--</tr>-->
                     </table>
                 </div>
-                <div class="panel-footer" id="list-count">当前在线：0人</div>
+                <div class="panel-footer" id="list-count">當前在線：0人</div>
             </div>
         </div>
     </div>
