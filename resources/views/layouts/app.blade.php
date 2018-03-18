@@ -17,6 +17,9 @@
         function loginUser(){
             return $('#social_user_id').val();
         }
+        function webSocketIP(){
+            return $('#web_socket_ip').val();
+        }
     </script>
 </head>
 
@@ -28,6 +31,8 @@
     <div class="row bottom-s">
         @if(auth()->user())
             <input type="hidden" id="social_user_id" value="{{auth()->user()->social_user_id}}">
+            <input type="hidden" id="web_socket_ip" value="{{config('webSocket.ip')}}">
+
 
             <nav class="navbar navbar-inverse">
                 <div class="container-fluid">

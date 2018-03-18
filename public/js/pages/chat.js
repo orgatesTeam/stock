@@ -42893,7 +42893,8 @@ module.exports = __webpack_require__(64);
 
 __webpack_require__(12);
 
-var conn = new WebSocket('ws://localhost:8080');
+webSocketIp = webSocketIP();
+var conn = new WebSocket(webSocketIp);
 conn.onopen = function (e) {
     console.log("Connection established!");
 };

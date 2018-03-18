@@ -1,6 +1,7 @@
 require('../bootstrap');
 
-var conn = new WebSocket('ws://localhost:8080');
+webSocketIp = webSocketIP();
+var conn = new WebSocket(webSocketIp);
 conn.onopen = function (e) {
     console.log("Connection established!");
 };
