@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar'
+        'name', 'email', 'password', 'avatar','social_user_id'
     ];
 
     /**
@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function socialAccount()
+    {
+        return $this->hasOne(SocialAccount::class);
+    }
 }

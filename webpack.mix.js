@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/pages/analysisShort.js','public/js/pages')
     .js('resources/assets/js/pages/warehouse.js','public/js/pages')
+    .js('resources/assets/js/pages/chat.js','public/js/pages')
    .sass('resources/assets/sass/app.scss', 'public/css');
 
 mix.disableNotifications();
