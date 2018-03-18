@@ -42915,7 +42915,6 @@ window.vm = new Vue({
     },
     methods: {
         send: function send() {
-            console.log(4);
             if (this.message == '') {
                 return;
             }

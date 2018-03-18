@@ -26,7 +26,7 @@ class ChatSocket extends BaseSocket
         $everyoneSend = true;
 
         $msgObj = json_decode($msg);
-        $msgObj->datetime = now()->toDateTimeString();
+        $msgObj->datetime = now(config('app.current_timezone'))->toDateTimeString();
         $chat = new ChatRepository();
         $chat->addChatRecord(json_encode($msgObj));
 
