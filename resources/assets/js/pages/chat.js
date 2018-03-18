@@ -3,6 +3,7 @@ require('../bootstrap');
 webSocketIp = webSocketIP();
 var conn = new WebSocket(webSocketIp);
 conn.onopen = function (e) {
+    window.vm.firstSend();
     console.log("Connection established!");
 };
 
@@ -40,6 +41,13 @@ window.vm = new Vue({
 
             conn.send(JSON.stringify(chatItem));
             this.message = '';
+        },
+        firstSend: function () {
+            //第一次驗證身份
+            chatItem = {};
+            chatItem['valid'] = '';
+            chatItem['userID'] = (loginUser());
+            conn.send(JSON.stringify(chatItem));
         }
     },
     computed: {

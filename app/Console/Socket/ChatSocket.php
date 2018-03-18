@@ -25,9 +25,7 @@ class ChatSocket extends BaseSocket
 
         $this->clients->attach($conn);
 
-        foreach ($this->clients as $client) {
-            $client->send(json_encode(['users' => $this->chatRepository->getChatUsers()]));
-        }
+        $this->sendUsers();
         echo "New connection! ({$conn->resourceId})\n";
         var_dump($this->chatRepository->getChatUsers());
     }
@@ -42,6 +40,13 @@ class ChatSocket extends BaseSocket
         $everyoneSend = true;
 
         $msgObj = json_decode($msg);
+
+        if (isset($msgObj->valid)) {
+            $this->chatRepository->addChatUser($from->resourceId, $msgObj->userID);
+            $this->sendUsers();
+            return;
+        }
+
         $msgObj->datetime = now(config('app.current_timezone'))->toDateTimeString();
 
         $this->chatRepository->addChatRecord(json_encode($msgObj));
@@ -58,6 +63,13 @@ class ChatSocket extends BaseSocket
                         $this->chatRepository->getChat()
                     ));
             }
+        }
+    }
+
+    protected function sendUsers()
+    {
+        foreach ($this->clients as $client) {
+            $client->send(json_encode(['users' => $this->chatRepository->getChatUsers()]));
         }
     }
 
