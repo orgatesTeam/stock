@@ -42900,6 +42900,11 @@ conn.onopen = function (e) {
 };
 
 conn.onmessage = function (e) {
+    data = jQuery.parseJSON(e.data);
+    if (data["users"] != undefined) {
+        window.vm.users = data["users"];
+        return;
+    }
     window.vm.chatItems = [];
     chatItems = jQuery.parseJSON(e.data);
     chatItems.forEach(function (chatItem) {
@@ -42911,7 +42916,8 @@ window.vm = new Vue({
     el: '#app',
     data: {
         chatItems: [],
-        message: ''
+        message: '',
+        users: []
     },
     methods: {
         send: function send() {
@@ -42921,10 +42927,15 @@ window.vm = new Vue({
             console.log(this.message);
             chatItem = {};
             chatItem['content'] = this.message;
-            chatItem['user'] = loginUser();
+            chatItem['userID'] = loginUser();
 
             conn.send(JSON.stringify(chatItem));
             this.message = '';
+        }
+    },
+    computed: {
+        onlineCount: function onlineCount() {
+            return _.keys(this.users).length;
         }
     }
 });
