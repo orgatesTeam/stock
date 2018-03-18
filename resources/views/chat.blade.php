@@ -13,20 +13,19 @@
                     &nbsp;聊天内容
                 </div>
                 <div class="panel-body chat-body">
-                    <div class="msg-list-body">
-                        <div v-for="message in messages">
+                    <div class="msg-list-body" style="width:500px;height:300px;overflow:auto;">
+                        <div v-for="chatItem in chatItems">
                             <div class="clearfix msg-wrap">
                                 <div class="msg-head">
-                       <span class="msg-name label label-primary pull-left">
-                        <span class="glyphicon glyphicon-user"></span>
-                        &nbsp;李元傑
-                        </span>
-                                    <span class="msg-time label label-default pull-left">
-                        <span class="glyphicon glyphicon-time"></span>
-                        &nbsp;@{{ message.time }}
+                                      <span class="msg-name label label-primary pull-left">
+                                      <span class="glyphicon glyphicon-user"></span>
+                                       &nbsp;李元傑
+                                      </span><span class="msg-time label label-default pull-left">
+                                      <span class="glyphicon glyphicon-time"></span>
+                        &nbsp;@{{ chatItem.datetime }}
                         </span>
                                 </div>
-                                <div class="msg-content">@{{ message.message }}</div>
+                                <div class="msg-content">@{{ chatItem.content }}</div>
                             </div>
                         </div>
 
@@ -36,29 +35,13 @@
 
             <!-- 输入框 -->
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control" placeholder="請輸入聊天內容" v-model="chatContent">
+                <input type="text" class="form-control" placeholder="請輸入聊天內容" v-model="message">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button" v-on:click="send()">
                         發送
                         <span class="glyphicon glyphicon-send"></span>
                     </button>
                 </span>
-            </div>
-        </div>
-
-        <!-- 个人信息 -->
-        <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span class="glyphicon glyphicon-user"></span>
-                    &nbsp;个人信息
-                </div>
-                <div class="panel-body">
-                    <div class="col-sm-9"><h5 id="my-nickname">昵称：还未设置</h5></div>
-                    <div class="col-sm-3">
-                        <button class="btn btn-default" onclick="onClickChangeNickname()">修改</button>
-                    </div>
-                </div>
             </div>
         </div>
 

@@ -13,6 +13,11 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/my-style.css')}}">
     @yield('asset')
+    <script>
+        function loginUser(){
+            return $('#social_user_id').val();
+        }
+    </script>
 </head>
 
 <body>
@@ -22,6 +27,8 @@
     </div>
     <div class="row bottom-s">
         @if(auth()->user())
+            <input type="hidden" id="social_user_id" value="{{auth()->user()->social_user_id}}">
+
             <nav class="navbar navbar-inverse">
                 <div class="container-fluid">
                     <div class="navbar-header">

@@ -42899,26 +42899,41 @@ conn.onopen = function (e) {
 };
 
 conn.onmessage = function (e) {
-    data = jQuery.parseJSON(e.data);
-    console.log(data);
-    window.vm.messages.push(data);
+    window.vm.chatItems = [];
+    chatItems = jQuery.parseJSON(e.data);
+    chatItems.forEach(function (chatItem) {
+        window.vm.chatItems.push(jQuery.parseJSON(chatItem));
+    });
 };
 
 window.vm = new Vue({
     el: '#app',
     data: {
-        chatContent: '',
-        messages: []
+        chatItems: [],
+        message: ''
     },
     methods: {
         send: function send() {
-            console.log(1);
-            if (this.chatContent == '') {
+            console.log(4);
+            if (this.message == '') {
                 return;
             }
-            conn.send(this.chatContent);
-            this.chatContent = '';
+            console.log(this.message);
+            chatItem = {};
+            chatItem['content'] = this.message;
+            chatItem['user'] = loginUser();
+
+            conn.send(JSON.stringify(chatItem));
+            this.message = '';
         }
+    }
+});
+
+document.querySelector('#app').addEventListener('keypress', function (e) {
+    var key = e.which || e.keyCode;
+    if (key === 13) {
+        // 13 is enter
+        window.vm.send();
     }
 });
 

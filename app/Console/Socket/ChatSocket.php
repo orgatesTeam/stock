@@ -1,9 +1,10 @@
 <?php
 namespace App\Console\Socket;
 
-use Ratchet\MessageComponentInterface;
+use Illuminate\Support\Carbon;
 use Ratchet\ConnectionInterface;
 use App\Console\Socket\Base\BaseSocket;
+use App\Repositories\Caches\ChatRepository;
 
 class ChatSocket extends BaseSocket
 {
@@ -16,26 +17,30 @@ class ChatSocket extends BaseSocket
 
     public function onOpen(ConnectionInterface $conn)
     {
-        // Store the new connection to send messages to later
         $this->clients->attach($conn);
-
         echo "New connection! ({$conn->resourceId})\n";
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
+        $everyoneSend = true;
+
+        $msgObj = json_decode($msg);
+        $msgObj->datetime = now()->toDateTimeString();
+        $chat = new ChatRepository();
+        $chat->addChatRecord(json_encode($msgObj));
+
         $numRecv = count($this->clients) - 1;
+
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+            , $from->resourceId, $msgObj->content, $numRecv, $numRecv == 1 ? '' : 's');
         foreach ($this->clients as $client) {
-            if ($from !== $client) {
+            if ($from !== $client || $everyoneSend) {
                 // The sender is not the receiver, send to each client connected
                 $client->send(
                     json_encode(
-                        [
-                            'message' => $msg,
-                            'time'    => now(config('app.current_timezone'))->toDateTimeString(),
-                        ]));
+                        $chat->getChat()
+                    ));
             }
         }
     }

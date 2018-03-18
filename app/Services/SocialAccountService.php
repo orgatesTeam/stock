@@ -28,10 +28,11 @@ class SocialAccountService
             if (!$user) {
 
                 $user = User::create([
-                    'email'    => $providerUser->getEmail(),
-                    'name'     => $providerUser->getName(),
-                    'password' => Hash::make(123456),
-                    'avatar'=>$providerUser->getAvatar(),
+                    'email'          => $providerUser->getEmail(),
+                    'name'           => $providerUser->getName(),
+                    'password'       => Hash::make(123456),
+                    'avatar'         => $providerUser->getAvatar(),
+                    'social_user_id' => $providerUser->getId()
                 ]);
             }
 
