@@ -4,6 +4,28 @@
 @section('content')
     <div class="row" style="margin-top:15px;">
 
+        <!-- 在線人數 -->
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-list"></span>
+                    &nbsp;在線名單
+                </div>
+                <div class="panel-body list-body">
+                    <div class="col-md-12">
+                        <div v-for="user in users" class="col-md-4">
+                            <a :href="facebookLink(user)" target="_blank">
+                                <img style="border-radius: 50%;width:40px"
+                                     :src="facebookUserImg(user)" alt="">
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer" id="list-count">當前在線：@{{ onlineCount }}人</div>
+            </div>
+        </div>
+
         <!-- 聊天区 -->
         <div class="col-sm-8">
             <!-- 聊天内容 -->
@@ -13,19 +35,21 @@
                     &nbsp;聊天内容
                 </div>
                 <div class="panel-body chat-body">
-                    <div class="msg-list-body" style="width:500px;height:300px;overflow:auto;">
+                    <div id="messageBox" class="msg-list-body" style="width:100%;height:300px;overflow:auto;">
                         <div v-for="chatItem in chatItems">
                             <div class="clearfix msg-wrap">
                                 <div class="msg-head">
-                                      <span class="msg-name label label-primary pull-left">
+                                      <span class="msg-name label pull-left">
                                       <a :href="facebookLink(chatItem.userID)" target="_blank">
                                         <img style="border-radius: 50%;width:40px"
-                                        :src="facebookUserImg(chatItem.userID)" alt="">
+                                             :src="facebookUserImg(chatItem.userID)" alt="">
                                       </a>
-                                      </span><span class="msg-time label label-default pull-left">
-                                      <span class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
+                                      </span>
                                 </div>
-                                <div class="msg-content" style="font-size: 20px">@{{ chatItem.content }}</div>
+                                <div class="msg-content" style="font-size: 24px">@{{ chatItem.content }}</div>
+                                <br/>
+                                <span class="msg-name label label-primary pull-left"><span
+                                            class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
                             </div>
                         </div>
 
@@ -47,24 +71,7 @@
 
         <!-- 在线列表 -->
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span class="glyphicon glyphicon-list"></span>
-                    &nbsp;在線名單
-                </div>
-                <div class="panel-body list-body">
-                    <div class="col-md-12">
-                        <div v-for="user in users" class="col-md-4">
-                            <a :href="facebookLink(user)" target="_blank">
-                                <img style="border-radius: 50%;width:40px"
-                                     :src="facebookUserImg(user)" alt="">
-                            </a>
-                        </div>
-                    </div>
 
-                </div>
-                <div class="panel-footer" id="list-count">當前在線：@{{ onlineCount }}人</div>
-            </div>
         </div>
     </div>
 @endsection

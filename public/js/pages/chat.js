@@ -42919,6 +42919,10 @@ conn.onmessage = function (e) {
         chatItems.forEach(function (chatItem) {
             window.vm.chatItems.push(jQuery.parseJSON(chatItem));
         });
+
+        messageBox = $("#messageBox");
+        scrollHeight = $("#messageBox").scrollHeight;
+        messageBox.animate({ scrollTop: scrollHeight }, 200);
         return;
     }
 };

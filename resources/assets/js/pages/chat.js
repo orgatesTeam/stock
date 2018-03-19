@@ -28,6 +28,10 @@ conn.onmessage = function (e) {
                 jQuery.parseJSON(chatItem)
             )
         })
+
+        messageBox=$("#messageBox");
+        scrollHeight=$("#messageBox").scrollHeight;
+        messageBox.animate({ scrollTop: scrollHeight}, 200);
         return;
     }
 };
