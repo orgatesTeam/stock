@@ -42902,15 +42902,25 @@ conn.onopen = function (e) {
 
 conn.onmessage = function (e) {
     data = jQuery.parseJSON(e.data);
+
     if (data["users"] != undefined) {
         window.vm.users = data["users"];
         return;
     }
-    window.vm.chatItems = [];
-    chatItems = jQuery.parseJSON(e.data);
-    chatItems.forEach(function (chatItem) {
-        window.vm.chatItems.push(jQuery.parseJSON(chatItem));
-    });
+
+    if (data["alert"] != undefined) {
+        alert(data["alert"]);
+        return;
+    }
+
+    if (data["message"] != undefined) {
+        window.vm.chatItems = [];
+        chatItems = data["message"];
+        chatItems.forEach(function (chatItem) {
+            window.vm.chatItems.push(jQuery.parseJSON(chatItem));
+        });
+        return;
+    }
 };
 
 window.vm = new Vue({
@@ -42936,9 +42946,15 @@ window.vm = new Vue({
         firstSend: function firstSend() {
             //第一次驗證身份
             chatItem = {};
-            chatItem['valid'] = '';
+            chatItem['firstLogin'] = '';
             chatItem['userID'] = loginUser();
             conn.send(JSON.stringify(chatItem));
+        },
+        facebookLink: function facebookLink(id) {
+            return 'https://facebook.com/' + id;
+        },
+        facebookUserImg: function facebookUserImg(id) {
+            return 'https://graph.facebook.com/v2.10/' + id + '/picture?type=normal';
         }
     },
     computed: {

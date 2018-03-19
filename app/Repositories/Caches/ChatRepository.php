@@ -45,15 +45,20 @@ class ChatRepository
         return $this->cache()->hGetAll($key);
     }
 
+    public function usExistChatUser($userID)
+    {
+        $users = $this->getChatUsers();
+        return array_key_exists($userID, $users);
+    }
+
     public function deleteChatUser($connID)
     {
         $chatUsers = $this->getChatUsers();
-        if (($key = array_search($connID, $chatUsers)) !== false) {
-            unset($chatUsers[$key]);
-        }
 
-        $key = self::PREFIX_CHAT_USER;
-        $this->cache()->hMSet($key, $chatUsers);
-        $this->cache()->expire($key, self::SAVE_EXPIRE);
+        if ($userID = array_search($connID, $chatUsers)) {
+            $key = self::PREFIX_CHAT_USER;
+            $this->cache()->hDEL($key, $userID);
+            $this->cache()->expire($key, self::SAVE_EXPIRE);
+        }
     }
 }
