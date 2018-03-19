@@ -20,12 +20,13 @@ class ChatSocket extends BaseSocket
     public function onOpen(ConnectionInterface $conn)
     {
         if (!$this->isMySource($conn)) {
+            unset($conn);
             return;
         }
 
         $this->clients->attach($conn);
 
-//        $this->sendUsers();
+        $this->sendUsers();
         echo "New connection! ({$conn->resourceId})\n";
         var_dump($this->chatRepository->getChatUsers());
     }
