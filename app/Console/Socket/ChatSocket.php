@@ -25,7 +25,7 @@ class ChatSocket extends BaseSocket
 
         $this->clients->attach($conn);
 
-        $this->sendUsers();
+//        $this->sendUsers();
         echo "New connection! ({$conn->resourceId})\n";
         var_dump($this->chatRepository->getChatUsers());
     }
@@ -55,6 +55,7 @@ class ChatSocket extends BaseSocket
 
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msgObj->content, $numRecv, $numRecv == 1 ? '' : 's');
+
         foreach ($this->clients as $client) {
             if ($from !== $client || $everyoneSend) {
                 // The sender is not the receiver, send to each client connected
