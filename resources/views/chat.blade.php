@@ -52,11 +52,16 @@
                     &nbsp;在線名單
                 </div>
                 <div class="panel-body list-body">
-                    <table class="table table-hover list-table">
-                        <!--<tr>-->
-                        <!--<td>test</td>-->
-                        <!--</tr>-->
-                    </table>
+                    <div class="col-md-12">
+                        <div v-for="user in users" class="col-md-4">
+
+                            <a :href="facebookLink(user)" target="_blank">
+                                <img style="border-radius: 50%;width:40px"
+                                     :src="facebookUserImg(user)" alt="">
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="panel-footer" id="list-count">當前在線：@{{ onlineCount }}人</div>
             </div>
