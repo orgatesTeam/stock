@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Repositories\Caches\ChatRepository;
 use Illuminate\Console\Command;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
@@ -41,6 +42,9 @@ class ChatServer extends Command
      */
     public function handle()
     {
+        $chatRepository = new ChatRepository();
+        $chatRepository->clearChatUsers();
+
         $this->info("Start Server");
 
         $server = IoServer::factory(

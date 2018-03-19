@@ -61,4 +61,10 @@ class ChatRepository
             $this->cache()->expire($key, self::SAVE_EXPIRE);
         }
     }
+
+    public function clearChatUsers()
+    {
+        $key = self::PREFIX_CHAT_USER;
+        $this->cache()->del($key);
+    }
 }
