@@ -20,8 +20,7 @@ class ChatSocket extends BaseSocket
     public function onOpen(ConnectionInterface $conn)
     {
         if (!$this->isMySource($conn)) {
-            unset($conn);
-            return;
+            return $conn->close();
         }
 
         $this->clients->attach($conn);
