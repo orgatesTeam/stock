@@ -18,13 +18,14 @@
                             <div class="clearfix msg-wrap">
                                 <div class="msg-head">
                                       <span class="msg-name label label-primary pull-left">
-                                      <span class="glyphicon glyphicon-user"></span>
+                                      <a :href="facebookLink(chatItem.userID)" target="_blank">
+                                        <img style="border-radius: 50%;width:40px"
+                                        :src="facebookUserImg(chatItem.userID)" alt="">
+                                      </a>
                                       </span><span class="msg-time label label-default pull-left">
-                                      <span class="glyphicon glyphicon-time"></span>
-                        &nbsp;@{{ chatItem.datetime }}
-                        </span>
+                                      <span class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
                                 </div>
-                                <div class="msg-content">@{{ chatItem.content }}</div>
+                                <div class="msg-content" style="font-size: 20px">@{{ chatItem.content }}</div>
                             </div>
                         </div>
 
@@ -54,7 +55,6 @@
                 <div class="panel-body list-body">
                     <div class="col-md-12">
                         <div v-for="user in users" class="col-md-4">
-
                             <a :href="facebookLink(user)" target="_blank">
                                 <img style="border-radius: 50%;width:40px"
                                      :src="facebookUserImg(user)" alt="">
