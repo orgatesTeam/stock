@@ -23,19 +23,19 @@
     font-size: 1.6em !important;
 }
 
-select{
+select {
     font-size: 24px !important;
 }
 
-.pagination{
+.pagination {
     font-size: 24px !important;
 }
 
-.pagination>.disabled>a{
-    color:red;
+.pagination > .disabled > a {
+    color: red;
 }
 
-.bottom-s{
+.bottom-s {
     margin-bottom: 20px;
 }
 
@@ -43,6 +43,10 @@ select{
     display: none;
 }
 
-.red-font{
-    color:red;
+.red-font {
+    color: red;
+}
+
+.hidden {
+    display: none;
 }

@@ -42921,8 +42921,7 @@ conn.onmessage = function (e) {
         });
 
         messageBox = $("#messageBox");
-        scrollHeight = $("#messageBox").scrollHeight;
-        messageBox.animate({ scrollTop: scrollHeight }, 200);
+        messageBox.animate({ scrollTop: 999999999 }, 200);
         return;
     }
 };
@@ -42959,6 +42958,9 @@ window.vm = new Vue({
         },
         facebookUserImg: function facebookUserImg(id) {
             return 'https://graph.facebook.com/v2.10/' + id + '/picture?type=normal';
+        },
+        checkSelf: function checkSelf(chatItem) {
+            return chatItem.userID == loginUser();
         }
     },
     computed: {
