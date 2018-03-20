@@ -5,7 +5,7 @@
     <div class="row" style="margin-top:15px;">
 
         <!-- 在線人數 -->
-        <div class="col-sm-4">
+        <div class="col-sm-4" v-if="showUser">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-list"></span>
@@ -27,7 +27,7 @@
         </div>
 
         <!-- 聊天区 -->
-        <div class="col-sm-8">
+        <div :class="showUser?'col-md-8':'col-md-12'">
             <!-- 聊天内容 -->
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -79,14 +79,14 @@
                         發送
                         <span class="glyphicon glyphicon-send"></span>
                     </button>
+                    <button class="btn btn-default" type="button" v-on:click="changeShowUser()">
+                        @{{ showUser?'隱藏在線人數':'顯示在線人數' }}
+                        <span class="glyphicon glyphicon-user"></span>
+                    </button>
                 </span>
             </div>
         </div>
 
-        <!-- 在线列表 -->
-        <div class="col-sm-4">
-
-        </div>
     </div>
 @endsection
 @section('script')

@@ -41,6 +41,7 @@ window.vm = new Vue({
         chatItems: [],
         message: '',
         users: [],
+        showUser: true,
     },
     methods: {
         send: function () {
@@ -70,6 +71,9 @@ window.vm = new Vue({
         },
         isSelf: function (chatItem) {
             return chatItem.userID == loginUser();
+        },
+        changeShowUser: function () {
+            this.showUser = !this.showUser;
         }
     },
     computed: {
