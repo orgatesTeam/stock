@@ -68,7 +68,7 @@ window.vm = new Vue({
         facebookUserImg: function (id) {
             return 'https://graph.facebook.com/v2.10/' + id + '/picture?type=normal';
         },
-        checkSelf: function (chatItem) {
+        isSelf: function (chatItem) {
             return chatItem.userID == loginUser();
         }
     },

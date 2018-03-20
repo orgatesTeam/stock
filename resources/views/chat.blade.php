@@ -38,16 +38,30 @@
                     <div id="messageBox" class="msg-list-body" style="width:100%;height:300px;overflow:auto;">
                         <div v-for="chatItem in chatItems">
                             <div class="clearfix msg-wrap">
-                                <div :class="checkSelf(chatItem) ? 'pull-right' : 'pull-left'">
-                                    <div :class="checkSelf(chatItem) ? 'hidden' : 'pull-left'">
-                                        <a :href="facebookLink(chatItem.userID)" target="_blank">
-                                            <img style="border-radius: 50%;width:30px"
-                                                 :src="facebookUserImg(chatItem.userID)" alt="">
-                                        </a>
+                                <div :class="isSelf(chatItem) ? 'pull-right' : 'pull-left'">
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div :class="isSelf(chatItem) ? 'hidden' : 'pull-left'">
+                                                <a :href="facebookLink(chatItem.userID)" target="_blank">
+                                                    <img style="border-radius: 50%;width:30px"
+                                                         :src="facebookUserImg(chatItem.userID)" alt="">
+                                                </a>
+                                            </div>
+
+                                            <div class="chat-circle" :class="isSelf(chatItem) ? 'chat-self' : 'chat-other'">
+                                                <div class="chat">@{{ chatItem.content }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                         <span class="chat-time"
+                                               :class="isSelf(chatItem) ? 'pull-right' : 'pull-left'"><span
+                                                     class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
+                                        </div>
                                     </div>
-                                    <div style="font-size: 20px">@{{ chatItem.content }}</div>
-                                    <span class="msg-name label label-primary" :class="checkSelf(chatItem) ? 'pull-right' : 'pull-left'"><span
-                                                class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
+
+
                                 </div>
 
                             </div>

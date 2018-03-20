@@ -44,7 +44,7 @@ class ChatSocket extends BaseSocket
             return;
         }
 
-        $msgObj->datetime = now(config('app.current_timezone'))->toDateTimeString();
+        $msgObj->datetime = now(config('app.current_timezone'))->toTimeString();
 
         $this->chatRepository->addChatRecord(json_encode($msgObj));
         $this->chatRepository->addChatUser($from->resourceId, $msgObj->userID);

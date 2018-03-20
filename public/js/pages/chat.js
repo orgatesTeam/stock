@@ -42959,7 +42959,7 @@ window.vm = new Vue({
         facebookUserImg: function facebookUserImg(id) {
             return 'https://graph.facebook.com/v2.10/' + id + '/picture?type=normal';
         },
-        checkSelf: function checkSelf(chatItem) {
+        isSelf: function isSelf(chatItem) {
             return chatItem.userID == loginUser();
         }
     },
