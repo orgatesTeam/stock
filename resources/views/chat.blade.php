@@ -79,11 +79,14 @@
                         發送
                         <span class="glyphicon glyphicon-send"></span>
                     </button>
-                    <button class="btn btn-default" type="button" v-on:click="changeShowUser()">
-                        @{{ showUser?'隱藏在線人數':'顯示在線人數' }}
-                        <span class="glyphicon glyphicon-user"></span>
-                    </button>
                 </span>
+            </div>
+
+            <div class="input-group input-group-lg">
+                <button class="btn btn-default" type="button" v-on:click="changeShowUser()">
+                    @{{ showUser?'隱藏在線人數':'顯示在線人數' }}
+                    <span class="glyphicon glyphicon-user"></span>
+                </button>
             </div>
         </div>
 
