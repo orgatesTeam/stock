@@ -38,18 +38,18 @@
                     <div id="messageBox" class="msg-list-body" style="width:100%;height:300px;overflow:auto;">
                         <div v-for="chatItem in chatItems">
                             <div class="clearfix msg-wrap">
-                                <div class="msg-head">
-                                      <span class="msg-name label pull-left">
-                                      <a :href="facebookLink(chatItem.userID)" target="_blank">
-                                        <img style="border-radius: 50%;width:40px"
-                                             :src="facebookUserImg(chatItem.userID)" alt="">
-                                      </a>
-                                      </span>
+                                <div :class="checkSelf(chatItem) ? 'pull-right' : 'pull-left'">
+                                    <div :class="checkSelf(chatItem) ? 'hidden' : 'pull-left'">
+                                        <a :href="facebookLink(chatItem.userID)" target="_blank">
+                                            <img style="border-radius: 50%;width:30px"
+                                                 :src="facebookUserImg(chatItem.userID)" alt="">
+                                        </a>
+                                    </div>
+                                    <div style="font-size: 20px">@{{ chatItem.content }}</div>
+                                    <span class="msg-name label label-primary" :class="checkSelf(chatItem) ? 'pull-right' : 'pull-left'"><span
+                                                class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
                                 </div>
-                                <div class="msg-content" style="font-size: 24px">@{{ chatItem.content }}</div>
-                                <br/>
-                                <span class="msg-name label label-primary pull-left"><span
-                                            class="glyphicon glyphicon-time"></span>@{{ chatItem.datetime }}</span>
+
                             </div>
                         </div>
 
