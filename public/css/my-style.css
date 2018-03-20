@@ -50,3 +50,28 @@ select {
 .hidden {
     display: none;
 }
+
+.chat-circle {
+    border-radius: 25px;
+    background: gainsboro;
+    margin-left:50px;
+}
+
+.chat{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 6px;
+}
+
+.chat-self{
+    background: lightskyblue;
+}
+
+.chat-other{
+    background: gainsboro;
+}
+
+.chat-time{
+    color:firebrick;
+    margin-bottom: 10px;
+}
