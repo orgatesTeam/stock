@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
         Log::info('schedule run');
         $schedule->command('pull:stock:closingPrice')->dailyAt(config('schedule.at.pullStockClosingPrice', '14:00'));
-        $schedule->command('chat_server:serve')->dailyAt('00:00');
+        $schedule->command('chat_server:serve')->everyMinute();
         $schedule->command('storage:chat')->dailyAt('00:01');
     }
 
