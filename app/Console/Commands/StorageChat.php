@@ -41,7 +41,7 @@ class StorageChat extends Command
      */
     public function handle()
     {
-        $lastDate = today()->toDateString();
+        $lastDate = today()->addDay(-1)->toDateString();
         $cacheRepository = app(ChatRepository::class);
         $chats = $cacheRepository->getChats($lastDate);
 
