@@ -42,6 +42,11 @@ class ChatServer extends Command
      */
     public function handle()
     {
+        if (shell_exec('lsof -i -P -n | grep :8080')) {
+            echo 'Port 8080 busy!';
+            return;
+        }
+
         $chatRepository = new ChatRepository();
         $chatRepository->clearChatUsers();
 
