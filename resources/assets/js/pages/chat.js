@@ -1,5 +1,3 @@
-require('../bootstrap');
-
 webSocketIp = webSocketIP();
 var conn = new WebSocket(webSocketIp);
 conn.onopen = function (e) {
