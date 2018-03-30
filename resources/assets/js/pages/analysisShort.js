@@ -1,5 +1,3 @@
-require('../bootstrap');
-
 Vue.component('e-table', require('../components/Etable.vue'));
 Vue.component('short-strategy', require('../components/ShortStrategy.vue'));
 

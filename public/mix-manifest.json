@@ -1,7 +1,7 @@
 {
-    "/js/pages/warehouse.js": "/js/pages/warehouse.js",
-    "/js/pages/analysisShort.js": "/js/pages/analysisShort.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/pages/warehouse.js": "/js/pages/warehouse.js",
+    "/js/pages/analysisShort.js": "/js/pages/analysisShort.js",
     "/js/pages/chat.js": "/js/pages/chat.js"
 }

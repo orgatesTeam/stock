@@ -21,6 +21,7 @@
             return $('#web_socket_ip').val();
         }
     </script>
+    <script src="{{mix('js/app.js')}}"></script>
 </head>
 
 <body>

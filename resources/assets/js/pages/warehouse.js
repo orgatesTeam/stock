@@ -1,6 +1,3 @@
-require('../bootstrap');
-require('jquery.cookie')
-
 Vue.component('warehouse-table', require('../components/WarehouseTable.vue'));
 Vue.component('warehouse-deal-table', require('../components/WarehouseDealTable.vue'));
 Vue.component('pagination', require('../components/Pagination.vue'));
