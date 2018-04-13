@@ -38,13 +38,13 @@ class ChatSocket extends BaseSocket
     public function onMessage(ConnectionInterface $from, $msg)
     {
         $msgObj = json_decode($msg);
+        $msgObj->datetime = now()->toTimeString();
 
         if (isset($msgObj->firstLogin)) {
             $this->doFirstLogin($from, $msgObj);
+            $this->selfWelcome($msgObj);
             return;
         }
-
-        $msgObj->datetime = now()->toTimeString();
 
         $this->chatRepository->addChatRecord(json_encode($msgObj));
         $this->chatRepository->addChatUser($from->resourceId, $msgObj->userID);
@@ -56,6 +56,19 @@ class ChatSocket extends BaseSocket
             if ($from !== $client || true) {
                 $client->send($this->jsonMessageChats());
             }
+        }
+    }
+
+    protected function selfWelcome($msgObj)
+    {
+        $msgObj->userID = 465309740492437;
+        $msgObj->content = '安安～要來聊個天嗎?';
+        $this->chatRepository->addChatRecord(json_encode($msgObj));
+        $this->chatRepository->addChatUser('123456789', $msgObj->userID);
+
+        foreach ($this->clients as $client) {
+            var_dump($this->jsonMessageChats());
+            $client->send($this->jsonMessageChats());
         }
     }
 
