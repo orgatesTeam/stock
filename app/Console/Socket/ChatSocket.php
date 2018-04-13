@@ -62,7 +62,7 @@ class ChatSocket extends BaseSocket
     protected function selfWelcome($msgObj)
     {
         $msgObj->userID = 465309740492437;
-        $msgObj->content = '安安～要來聊個天嗎?';
+        $msgObj->content = '安安～歡迎～  有什麼問題都可以問我或者FB我';
         $this->chatRepository->addChatRecord(json_encode($msgObj));
         $this->chatRepository->addChatUser('123456789', $msgObj->userID);
 
