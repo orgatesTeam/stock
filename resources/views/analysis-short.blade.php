@@ -6,7 +6,7 @@
             <img src="{{asset('loading.gif')}}" alt="wait" class="rounded float-right">
         </div>
     </div>
-    <div class="row" v-bind:class="{'invisible' : loadingGif }">
+    <div class="row" v-else>
         <div class="col-12">
             <form class="form-horizontal">
                 <div class="form-group">
