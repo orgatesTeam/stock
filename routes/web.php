@@ -33,9 +33,6 @@ Route::group(['middleware' => ['auth', 'throttle:60,1']], function () {
         Route::post('/add', 'WarehouseController@add')->name('warehouse.add');
     });
 
-
-
-    
     /**
      * 聊天室
      */
