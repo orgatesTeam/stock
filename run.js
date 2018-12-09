@@ -1,15 +1,8 @@
-var spawn = require('child_process').spawn;
+var execSync = require('child_process').execSync;
+var cmd = "php artisan  chat_server:serve";
 
-/* 其实就是等于执行hexo server --draft*/
-free = spawn('php', ['artisan', 'schedule:run']);
-free.stdout.on('data', function (data) {
-    console.log('standard output:\n' + data);
-});
+var options = {
+    encoding: 'utf8'
+};
 
-free.stderr.on('data', function (data) {
-    console.log('standard error output:\n' + data);
-});
-
-free.on('exit', function (code, signal) {
-    console.log('child process eixt ,exit:' + code);
-});
+console.log(execSync(cmd, options));
